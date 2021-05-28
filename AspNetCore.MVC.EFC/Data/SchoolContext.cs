@@ -23,7 +23,4 @@ namespace AspNetCore.MVC.EFC.Data
             builder.Entity<Enrollment>().ToTable("Enrollment");
         }
     }
-
-
-
 }

@@ -13,6 +13,7 @@ namespace AspNetCore.MVC.EFC
         {
             var host = CreateHostBuilder(args).Build();
             CreateDbIfNotExists(host);
+            host.Run();
         }
 
         private static void CreateDbIfNotExists(IHost host)
@@ -31,8 +32,9 @@ namespace AspNetCore.MVC.EFC
                     logger.LogError(ex, "An error occurred creating the DB.");
                 }
 
-                host.Run();
             }
+
+            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

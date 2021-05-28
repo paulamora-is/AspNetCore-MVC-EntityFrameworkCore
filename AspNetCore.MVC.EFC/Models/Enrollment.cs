@@ -1,4 +1,4 @@
-﻿using AspNetCore.MVC.EFC.Models.Enum;
+﻿using AspNetCore.MVC.EFC.Enum;
 
 namespace AspNetCore.MVC.EFC.Models
 {
