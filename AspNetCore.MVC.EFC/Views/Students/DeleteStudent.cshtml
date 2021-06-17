@@ -1,13 +1,14 @@
 ﻿@model AspNetCore.MVC.EFC.Models.Student
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "DeleteStudent";
 }
 
-<h1>Details</h1>
+<h1>Deletar</h1>
 
+<h3>Você tem certeza que deseja deletar?</h3>
 <div>
-    <h4>Student</h4>
+    <h4>Estudante</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -17,10 +18,10 @@
             @Html.DisplayFor(model => model.LastName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstMidName)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstMidName)
+            @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.EnrollmentDate)
@@ -29,8 +30,10 @@
             @Html.DisplayFor(model => model.EnrollmentDate)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    
+    <form asp-action="DeleteStudent">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Deletar" class="btn btn-danger" /> |
+        <a asp-action="ListStudents">Voltar</a>
+    </form>
 </div>

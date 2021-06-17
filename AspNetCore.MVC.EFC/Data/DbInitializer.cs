@@ -9,7 +9,7 @@ namespace AspNetCore.MVC.EFC.Data
     {
         public static void Initialize(SchoolContext context)
         {
-            context.Database.EnsureCreated();
+            context.Database.EnsureCreated(); //Automatically creates the database
 
             if (context.Students.Any())
             {
@@ -18,21 +18,21 @@ namespace AspNetCore.MVC.EFC.Data
 
             var students = new Student[]
             {
-                new Student{ FirstMidName = "Miguel", LastName = "Bandeira", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Davi", LastName = "Barbosa", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Arthur", LastName = "Barros", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Pedro", LastName = "Cabral", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Gabriel", LastName = "Café", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Sophia", LastName = "Camacho", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Alice", LastName = "Dias", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Julia", LastName = "Duarte", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Isabella", LastName = "Evangelista", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Manuela", LastName = "Fagundes", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Bernardo", LastName = "Ferreira", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Lucas", LastName = "Galvão", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Luiza", LastName = "Gonzaga", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Matheus", LastName = "Hernandes", EnrollmentDate = DateTime.Now },
-                new Student{ FirstMidName = "Valentina", LastName = "Lopes", EnrollmentDate = DateTime.Now }
+                new Student{ Name = "Miguel", LastName = "Bandeira", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Davi", LastName = "Barbosa", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Arthur", LastName = "Barros", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Pedro", LastName = "Cabral", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Gabriel", LastName = "Café", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Sophia", LastName = "Camacho", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Alice", LastName = "Dias", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Julia", LastName = "Duarte", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Isabella", LastName = "Evangelista", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Manuela", LastName = "Fagundes", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Bernardo", LastName = "Ferreira", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Lucas", LastName = "Galvão", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Luiza", LastName = "Gonzaga", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Matheus", LastName = "Hernandes", EnrollmentDate = DateTime.Now },
+                new Student{ Name = "Valentina", LastName = "Lopes", EnrollmentDate = DateTime.Now }
             };
 
             foreach (var studant in students)
