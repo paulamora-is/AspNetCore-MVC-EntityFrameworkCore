@@ -1,42 +1,42 @@
 ﻿@model AspNetCore.MVC.EFC.Models.Student
 
 @{
-    ViewData["Title"] = "EditStudent";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Editar</h1>
+<h1>Edit</h1>
 
-<h4>Estudante</h4>
+<h4>Student</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="EditStudent">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="LastName" class="control-label">Sobrenome</label>
+                <label asp-for="LastName" class="control-label"></label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label">Nome</label>
+                <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EnrollmentDate" class="control-label">Matrícula</label>
+                <label asp-for="EnrollmentDate" class="control-label"></label>
                 <input asp-for="EnrollmentDate" class="form-control" />
                 <span asp-validation-for="EnrollmentDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="ListStudents">Voltar</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

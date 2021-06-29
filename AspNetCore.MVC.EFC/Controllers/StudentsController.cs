@@ -1,9 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AspNetCore.MVC.EFC.Data;
 using AspNetCore.MVC.EFC.Models;
+
 namespace AspNetCore.MVC.EFC.Controllers
 {
     public class StudentsController : Controller
@@ -15,12 +19,12 @@ namespace AspNetCore.MVC.EFC.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> ListStudents()
+        public async Task<IActionResult> Index()
         {
             return View(await _context.Students.ToListAsync());
         }
 
-        public async Task<IActionResult> CheckStudentExistence(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -28,7 +32,11 @@ namespace AspNetCore.MVC.EFC.Controllers
             }
 
             var student = await _context.Students
-                .FirstOrDefaultAsync(s => s.Id == id);
+                .Include(s => s.Enrollments)
+                    .ThenInclude(e => e.Course)
+                .AsNoTracking() //melhora o desempenho em cenários em que as entidades retornadas não serão atualizadas no tempo de vida do contexto atual.
+                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (student == null)
             {
                 return NotFound();
@@ -37,9 +45,12 @@ namespace AspNetCore.MVC.EFC.Controllers
             return View(student);
         }
 
-        public IActionResult CreateNewStudent() => View();
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-        public async Task<IActionResult> EditStudent(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -54,7 +65,7 @@ namespace AspNetCore.MVC.EFC.Controllers
             return View(student);
         }
 
-        public async Task<IActionResult> DeleteStudent(int? id)
+        public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
@@ -62,73 +73,97 @@ namespace AspNetCore.MVC.EFC.Controllers
             }
 
             var student = await _context.Students
-                .FirstOrDefaultAsync(s => s.Id == id);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (student == null)
             {
                 return NotFound();
             }
 
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] =
+                    "Delete failed. Try again, and if the problem persists see your system administrator.";
+            }
+
             return View(student);
         }
 
-        [HttpPost, ActionName("CreateNewStudent")]
+        [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LastName,FirstMidName,EnrollmentDate")] Student student)
+        public async Task<IActionResult> Create([Bind("LastName,Name,EnrollmentDate")] Student student)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(ListStudents));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(student);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
             return View(student);
         }
 
-        [HttpPost, ActionName("EditStudent")]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,LastName,FirstMidName,EnrollmentDate")] Student student)
+        public async Task<IActionResult> EditPost(int? id)
         {
-            if (id != student.Id)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var studentToUpdate = await _context.Students.FirstOrDefaultAsync(s => s.Id == id);
+            if (await TryUpdateModelAsync<Student>(
+                studentToUpdate,
+                "",
+                s => s.Name, s => s.LastName, s => s.EnrollmentDate))
             {
                 try
                 {
-                    _context.Update(student);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException /* ex */)
                 {
-                    if (!StudentExists(student.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 }
-                return RedirectToAction(nameof(ListStudents));
             }
-            return View(student);
+            return View(studentToUpdate);
         }
 
-        [HttpPost, ActionName("DeleteStudent")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var student = await _context.Students.FindAsync(id);
-            _context.Students.Remove(student);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(ListStudents));
-        }
+            if (student == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
+            try
+            {
+                _context.Students.Remove(student);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.)
+                return RedirectToAction(nameof(Delete), new { id, saveChangesError = true });
+            }
+        }
         private bool StudentExists(int id)
         {
-            return _context.Students.Any(s => s.Id == id);
+            return _context.Students.Any(e => e.Id == id);
         }
     }
 }

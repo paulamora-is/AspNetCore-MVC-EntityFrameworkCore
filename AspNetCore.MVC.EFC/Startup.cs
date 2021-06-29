@@ -20,6 +20,7 @@ namespace AspNetCore.MVC.EFC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<SchoolContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DbContext>(ServiceLifetime.Scoped); //o tempo de vida do objeto de contexto coincide com o tempo de vida da solicitação da Web
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddControllersWithViews();

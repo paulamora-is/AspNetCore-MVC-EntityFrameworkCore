@@ -1,13 +1,14 @@
 ﻿@model AspNetCore.MVC.EFC.Models.Student
 
 @{
-    ViewData["Title"] = "CheckStudentExistence";
+    ViewData["Title"] = "Delete";
 }
 
-<h1>Detalhes</h1>
-
+<h2>Delete</h2>
+<p class="text-danger">@ViewData["ErrorMessage"]</p>
+<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Estudante</h4>
+    <h4>Student</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -29,8 +30,10 @@
             @Html.DisplayFor(model => model.EnrollmentDate)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="EditStudent" asp-route-id="@Model.Id">Editar</a> |
-    <a asp-action="ListStudents">Voltar</a>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
 </div>
