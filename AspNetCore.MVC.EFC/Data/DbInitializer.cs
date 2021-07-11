@@ -43,13 +43,13 @@ namespace AspNetCore.MVC.EFC.Data
 
             var courses = new Course[]
             {
-                new Course { Id = 4022, Title = "Analise e Desenvolvimento de Sistemas", Credits = 3 },
-                new Course { Id = 4041, Title = "Ciências da Computacao", Credits = 3 },
-                new Course { Id = 1045, Title = "Jogos Digitais", Credits = 4 },
-                new Course { Id = 3141, Title = "Sistemas de Informacao", Credits = 4 },
-                new Course { Id = 2021, Title = "Sistemas para Internet", Credits = 3 },
-                new Course { Id = 2042, Title = "Banco de Dados", Credits = 4 },
-                new Course { Id = 3042, Title = "Rede de Computadores", Credits = 4 }
+                new Course { Title = "Analise e Desenvolvimento de Sistemas", Credits = 3 },
+                new Course { Title = "Ciências da Computacao", Credits = 3 },
+                new Course { Title = "Jogos Digitais", Credits = 4 },
+                new Course { Title = "Sistemas de Informacao", Credits = 4 },
+                new Course { Title = "Sistemas para Internet", Credits = 3 },
+                new Course { Title = "Banco de Dados", Credits = 4 },
+                new Course { Title = "Rede de Computadores", Credits = 4 }
             };
 
             foreach(var course in courses)
@@ -60,19 +60,30 @@ namespace AspNetCore.MVC.EFC.Data
 
             var enrollments = new Enrollment[]
             {
-                new Enrollment{ StudentId = 1,CourseId = 1050, Grade = Grade.A},
-                new Enrollment{ StudentId = 1, CourseId = 1050, Grade = Grade.A},
-                new Enrollment{ StudentId = 1, CourseId = 4022, Grade = Grade.C},
-                new Enrollment{ StudentId = 1, CourseId = 4041, Grade = Grade.B},
-                new Enrollment{ StudentId = 2, CourseId = 1045, Grade = Grade.B},
-                new Enrollment{ StudentId = 2, CourseId = 3141, Grade = Grade.F},
-                new Enrollment{ StudentId = 2, CourseId = 2021, Grade = Grade.F},
-                new Enrollment{ StudentId = 3, CourseId = 1050},
-                new Enrollment{ StudentId = 4, CourseId = 1050},
-                new Enrollment{ StudentId = 4, CourseId = 4022,Grade = Grade.F},
-                new Enrollment{ StudentId = 5, CourseId = 4041,Grade = Grade.C},
-                new Enrollment{ StudentId = 6, CourseId = 1045},
-                new Enrollment{ StudentId = 7, CourseId = 3141,Grade = Grade.A}
+                new Enrollment{ StudentId = 1,CourseId =  2, Grade = Grade.A},
+                new Enrollment{ StudentId = 1, CourseId = 1, Grade = Grade.A},
+                new Enrollment{ StudentId = 2, CourseId = 2, Grade = Grade.C},
+                new Enrollment{ StudentId = 2, CourseId = 3, Grade = Grade.B},
+                new Enrollment{ StudentId = 3, CourseId = 3, Grade = Grade.B},
+                new Enrollment{ StudentId = 3, CourseId = 1, Grade = Grade.F},
+                new Enrollment{ StudentId = 4, CourseId = 6, Grade = Grade.F},
+                new Enrollment{ StudentId = 4, CourseId = 7},
+                new Enrollment{ StudentId = 5, CourseId = 5},
+                new Enrollment{ StudentId = 6, CourseId = 3,Grade = Grade.F},
+                new Enrollment{ StudentId = 7, CourseId = 4,Grade = Grade.C},
+                new Enrollment{ StudentId = 8, CourseId = 1},
+                new Enrollment{ StudentId = 9, CourseId = 4,Grade = Grade.A},
+                new Enrollment{ StudentId = 9, CourseId = 2,Grade = Grade.F},
+                new Enrollment{ StudentId = 9, CourseId = 6,Grade = Grade.C},
+                new Enrollment{ StudentId = 10, CourseId = 7},
+                new Enrollment{ StudentId = 10, CourseId = 3,Grade = Grade.A},
+                new Enrollment{ StudentId = 11, CourseId = 5,Grade = Grade.F},
+                new Enrollment{ StudentId = 11, CourseId = 3,Grade = Grade.C},
+                new Enrollment{ StudentId = 12, CourseId = 1},
+                new Enrollment{ StudentId = 13, CourseId = 7,Grade = Grade.A},
+                new Enrollment{ StudentId = 13, CourseId = 4,Grade = Grade.C},
+                new Enrollment{ StudentId = 14, CourseId = 1},
+                new Enrollment{ StudentId = 14, CourseId = 2,Grade = Grade.A}
             };
             
             foreach(var enrollment in enrollments)
