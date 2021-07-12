@@ -17,13 +17,22 @@ namespace AspNetCore.MVC.EFC.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            //usados pela exibição para configurar os hiperlinks de título de coluna com os valores de cadeia de caracteres de consulta apropriados.
+            //Usados pela exibição para configurar os hiperlinks de título de coluna com os valores de cadeia de caracteres de consulta apropriados.
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["CurrentFilter"] = searchString;
             var students = from student in _context.Students
                            select student;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                //Seleciona somente os alunos cujo nome ou sobrenome contém a cadeia de caracteres de pesquisa.
+                students = students.Where(s => s.LastName.Contains(searchString)
+                                       || s.Name.Contains(searchString));
+            }
+
             students = sortOrder switch
             {
                 "name_desc" => students
