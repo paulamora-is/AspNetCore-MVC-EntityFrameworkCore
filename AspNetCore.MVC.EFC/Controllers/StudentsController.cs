@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AspNetCore.MVC.EFC.Data;
 using AspNetCore.MVC.EFC.Models;
@@ -19,9 +17,23 @@ namespace AspNetCore.MVC.EFC.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            return View(await _context.Students.ToListAsync());
+            //usados pela exibição para configurar os hiperlinks de título de coluna com os valores de cadeia de caracteres de consulta apropriados.
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            var students = from student in _context.Students
+                           select student;
+            students = sortOrder switch
+            {
+                "name_desc" => students
+                .OrderByDescending(s => s.LastName),
+                "Date" => students
+                .OrderBy(s => s.EnrollmentDate),
+                "date_desc" => students.OrderByDescending(s => s.EnrollmentDate),
+                _ => students.OrderBy(s => s.LastName),
+            };
+            return View(await students.AsNoTracking().ToListAsync());
         }
 
         public async Task<IActionResult> Details(int? id)
