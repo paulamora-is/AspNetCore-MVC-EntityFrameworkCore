@@ -23,9 +23,9 @@ namespace AspNetCore.MVC.EFC.Controllers
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["CurrentFilter"] = searchString;
+
             var students = from student in _context.Students
                            select student;
-
             if (!String.IsNullOrEmpty(searchString))
             {
                 //Seleciona somente os alunos cujo nome ou sobrenome contém a cadeia de caracteres de pesquisa.
