@@ -17,12 +17,23 @@ namespace AspNetCore.MVC.EFC.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
             //Usados pela exibição para configurar os hiperlinks de título de coluna com os valores de cadeia de caracteres de consulta apropriados.
+            ViewData["CurrentSort"] = sortOrder; //fornece à exibição a ordem de classificação atual
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
-            ViewData["CurrentFilter"] = searchString;
+            
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString; //fornece à exibição a cadeia de caracteres de filtro atual.
 
             var students = from student in _context.Students
                            select student;
@@ -42,7 +53,9 @@ namespace AspNetCore.MVC.EFC.Controllers
                 "date_desc" => students.OrderByDescending(s => s.EnrollmentDate),
                 _ => students.OrderBy(s => s.LastName),
             };
-            return View(await students.AsNoTracking().ToListAsync());
+
+            int pageSize = 3;
+            return View(await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize)); //retornar o valor de pageNumber se ele tiver um valor ou retornar 1 se pageNumber for nulo.
         }
 
         public async Task<IActionResult> Details(int? id)
